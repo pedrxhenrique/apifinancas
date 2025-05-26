@@ -16,15 +16,15 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 
 ## Funcionalidades Atuais
 
-- Salvar usuário
-- Buscar detalhes de usuário
+- Salvar usuários e categorias
+- Buscar detalhes de usuários e categorias
 
 ---
 
 ## Estrutura Básica das Tabelas
 
 - **Usuário**: id, nome, email, senha  
-- **Categoria**: id, nome, tipo (receita/despesa)  
-- **Transação**: id, descrição, valor, data, categoria_id, usuario_id  
+- **Categoria**: id, nome, descrição, usuario_id
+- **Transação**: id, descrição, valor, data, categoria_id, usuario_id, tipo (receita/despesa)  
 
 ---
