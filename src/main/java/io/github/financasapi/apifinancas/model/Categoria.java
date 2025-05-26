@@ -18,10 +18,10 @@ public class Categoria {
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 
-    @Column(name = "descricao", length = 255)
+    @Column(name = "descricao", nullable = false, length = 255)
     private String descricao;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 }
