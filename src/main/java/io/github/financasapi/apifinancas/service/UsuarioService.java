@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Validator;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,5 +25,12 @@ public class UsuarioService {
 
     public Optional<Usuario> buscarPorId(UUID id) {
         return repository.findById(id);
+    }
+
+    public List<Usuario> pesquisa(String nome){
+        if(nome != null && !nome.trim().isEmpty()){
+            return repository.findByNomeContainingIgnoreCase(nome);
+        }
+        return repository.findAll();
     }
 }

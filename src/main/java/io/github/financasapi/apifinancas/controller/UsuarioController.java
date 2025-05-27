@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/financas")
@@ -50,5 +52,12 @@ public class UsuarioController {
             return ResponseEntity.ok(userDTO);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioDTO>> pesquisaDetalhada(@RequestParam(value = "nome", required = false) String nome) {
+        List<Usuario> lista = usuarioService.pesquisa(nome);
+        List<UsuarioDTO> listaDTO = lista.stream().map(usuario -> new UsuarioDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha())).collect(Collectors.toList());
+        return ResponseEntity.ok(listaDTO);
     }
 }
