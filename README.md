@@ -19,7 +19,7 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 - Salvar usuários, categorias e transações
 - Buscar detalhes de usuários e categorias
 - Pesquisa por nome de usuário
-- Expection se o usuário já possuir o email cadastro no banco
+- Expection se o usuário já possuir o email cadastrado no banco
 
 ---
 
