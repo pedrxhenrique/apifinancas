@@ -16,7 +16,7 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 
 ## Funcionalidades Atuais
 
-- Salvar usuários e categorias
+- Salvar usuários, categorias e transações
 - Buscar detalhes de usuários e categorias
 
 ---
