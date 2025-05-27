@@ -9,6 +9,7 @@ import io.github.financasapi.apifinancas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,4 +32,9 @@ public class TransacaoService {
         return transacaoRepository.save(transacao);
 
     }
+
+    public Optional<Transacao> buscarPorId(UUID id) {
+        return transacaoRepository.findById(id);
+    }
+
 }

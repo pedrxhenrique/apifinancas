@@ -4,13 +4,12 @@ import io.github.financasapi.apifinancas.dto.TransacaoDTO;
 import io.github.financasapi.apifinancas.model.Transacao;
 import io.github.financasapi.apifinancas.service.TransacaoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/transacoes")
@@ -28,6 +27,19 @@ public class TransacaoController {
         transacaoService.salvar(entidade);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
         return ResponseEntity.created(location).body(entidade);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Object> buscar(@PathVariable String id) {
+        var idTransacao = UUID.fromString(id);
+        Optional<Transacao> transacaoOptional = transacaoService.buscarPorId(idTransacao);
+        if (transacaoOptional.isPresent()) {
+            Transacao transacaoEntity = transacaoOptional.get();
+            TransacaoDTO dto = new TransacaoDTO(transacaoEntity.getId(),transacaoEntity.getDescricao(),transacaoEntity.getTipo(), transacaoEntity.getValor(),
+                    transacaoEntity.getData(), transacaoEntity.getIdUsuario().getId(), transacaoEntity.getIdCategoria().getId());
+            return ResponseEntity.ok(dto);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
