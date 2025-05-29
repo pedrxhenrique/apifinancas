@@ -30,12 +30,12 @@ public class TransacaoController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Object> buscar(@PathVariable String id) {
+    public ResponseEntity<Object> pesquisa(@PathVariable String id) {
         var idTransacao = UUID.fromString(id);
         Optional<Transacao> transacaoOptional = transacaoService.buscarPorId(idTransacao);
         if (transacaoOptional.isPresent()) {
             Transacao transacaoEntity = transacaoOptional.get();
-            TransacaoDTO dto = new TransacaoDTO(transacaoEntity.getId(),transacaoEntity.getDescricao(),transacaoEntity.getTipo(), transacaoEntity.getValor(),
+            TransacaoDTO dto = new TransacaoDTO(transacaoEntity.getId(), transacaoEntity.getDescricao(), transacaoEntity.getTipo(), transacaoEntity.getValor(),
                     transacaoEntity.getData(), transacaoEntity.getIdUsuario().getId(), transacaoEntity.getIdCategoria().getId());
             return ResponseEntity.ok(dto);
         }

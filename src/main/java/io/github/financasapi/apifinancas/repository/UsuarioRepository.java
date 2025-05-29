@@ -2,7 +2,6 @@ package io.github.financasapi.apifinancas.repository;
 
 import io.github.financasapi.apifinancas.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

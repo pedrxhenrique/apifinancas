@@ -1,19 +1,18 @@
 package io.github.financasapi.apifinancas.controller;
 
 import io.github.financasapi.apifinancas.dto.UsuarioDTO;
+import io.github.financasapi.apifinancas.dto.UsuarioResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
 import io.github.financasapi.apifinancas.expections.RegistroDuplicadoExpection;
 import io.github.financasapi.apifinancas.model.Usuario;
 import io.github.financasapi.apifinancas.service.UsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,7 +34,7 @@ public class UsuarioController {
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
             return ResponseEntity.created(location).build();
 
-        } catch(RegistroDuplicadoExpection e){
+        } catch (RegistroDuplicadoExpection e) {
 
             var errorDTO = ErrorResposta.conflito(e.getMessage());
             return ResponseEntity.status(errorDTO.status()).body(errorDTO);
@@ -43,21 +42,34 @@ public class UsuarioController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UsuarioDTO> buscar(@PathVariable("id") String id) {
+    public ResponseEntity<UsuarioResponseDTO> pesquisa(@PathVariable("id") String id) {
         var idAutor = UUID.fromString(id);
         Optional<Usuario> user = usuarioService.buscarPorId(idAutor);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             Usuario entity = user.get();
-            UsuarioDTO userDTO = new UsuarioDTO(entity.getId(), entity.getNome(), entity.getEmail(), entity.getSenha());
+            UsuarioResponseDTO userDTO = new UsuarioResponseDTO(entity.getId(), entity.getNome(), entity.getEmail());
             return ResponseEntity.ok(userDTO);
         }
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> pesquisaDetalhada(@RequestParam(value = "nome", required = false) String nome) {
+    public ResponseEntity<?> pesquisaDetalhada(@RequestParam(value = "nome", required = false) String nome) {
         List<Usuario> lista = usuarioService.pesquisa(nome);
-        List<UsuarioDTO> listaDTO = lista.stream().map(usuario -> new UsuarioDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha())).collect(Collectors.toList());
+        if (lista.isEmpty()) {
+            Map<String, String> mensagem = new HashMap<>();
+            mensagem.put("message", "Nenhum usuário encontrado com o nome informado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensagem);
+        }
+        List<UsuarioResponseDTO> listaDTO = lista.stream().map(usuario -> new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail())).collect(Collectors.toList());
         return ResponseEntity.ok(listaDTO);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> remover(@PathVariable("id") String id) {
+        var idUsuario = UUID.fromString(id);
+        Optional<Usuario> user = usuarioService.buscarPorId(idUsuario);
+        usuarioService.deletar(user.get().getId());
+        return ResponseEntity.noContent().build();
     }
 }

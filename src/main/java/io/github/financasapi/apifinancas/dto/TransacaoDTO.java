@@ -8,9 +8,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record TransacaoDTO(UUID id, String descricao, String tipo, BigDecimal valor, LocalDate data, UUID idCategoria, UUID idUsuario) {
+public record TransacaoDTO(UUID id, String descricao, String tipo, BigDecimal valor, LocalDate data, UUID idCategoria,
+                           UUID idUsuario) {
 
-    public Transacao mapearTransacao(){
+    public Transacao mapearTransacao() {
         Transacao transacao = new Transacao();
         transacao.setId(id);
         transacao.setDescricao(descricao);

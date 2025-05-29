@@ -17,7 +17,7 @@ public class UsuarioValidator {
     }
 
     public void validar(Usuario usuario) {
-        if(existeUsuarioCadastrado(usuario)) {
+        if (existeUsuarioCadastrado(usuario)) {
             throw new RegistroDuplicadoExpection("O usuário já está cadastrado em nossa base, tente outro email " + usuario.getEmail());
         }
     }

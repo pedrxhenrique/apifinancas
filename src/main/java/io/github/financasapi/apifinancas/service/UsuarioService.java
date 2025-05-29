@@ -5,7 +5,6 @@ import io.github.financasapi.apifinancas.repository.UsuarioRepository;
 import io.github.financasapi.apifinancas.validador.UsuarioValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Validator;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +26,14 @@ public class UsuarioService {
         return repository.findById(id);
     }
 
-    public List<Usuario> pesquisa(String nome){
-        if(nome != null && !nome.trim().isEmpty()){
+    public List<Usuario> pesquisa(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
             return repository.findByNomeContainingIgnoreCase(nome);
         }
         return repository.findAll();
+    }
+
+    public void deletar(UUID id) {
+        repository.deleteById(id);
     }
 }

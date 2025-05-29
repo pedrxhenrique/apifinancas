@@ -10,8 +10,12 @@ public record ErrorResposta(int status, String mensagem, List<ErrorCampo> erros)
         return new ErrorResposta(HttpStatus.BAD_REQUEST.value(), mensagem, List.of());
     }
 
-    public static ErrorResposta conflito(String mensagem){
+    public static ErrorResposta conflito(String mensagem) {
         return new ErrorResposta(HttpStatus.CONFLICT.value(), mensagem, List.of());
+    }
+
+    public static ErrorResposta usuarioInexistente(String mensagem) {
+        return new ErrorResposta(HttpStatus.NOT_FOUND.value(), mensagem, List.of());
     }
 
 }

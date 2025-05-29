@@ -7,6 +7,7 @@ import io.github.financasapi.apifinancas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +27,13 @@ public class CategoriaService {
 
     public Optional<Categoria> buscarPorId(UUID id) {
         return categoriaRepository.findById(id);
+    }
+
+    public List<Categoria> pesquisa(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            return categoriaRepository.findByNomeContainingIgnoreCase(nome);
+        }
+        return categoriaRepository.findAll();
     }
 
 }

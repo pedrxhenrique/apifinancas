@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record UsuarioDTO(UUID id, String nome, String email, String senha) {
 
-    public Usuario mapearUsuario(){
+    public Usuario mapearUsuario() {
         Usuario usuario = new Usuario();
         usuario.setId(id);
         usuario.setNome(nome);
