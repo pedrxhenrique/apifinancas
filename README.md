@@ -17,8 +17,10 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 ## Funcionalidades Atuais
 
 - Salvar usuários, categorias e transações
-- Buscar detalhes de usuários e categorias
-- Pesquisa por nome de usuário
+- Buscar detalhada por nome ou id de usuários (sem mostrar a senha)
+- Busca detalhada por nome ou id de categorias
+- Busca por id de transações
+- Remoção de usuários
 - Expection se o usuário já possuir o email cadastrado no banco
 
 ---
