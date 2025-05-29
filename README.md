@@ -21,7 +21,7 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 - Busca detalhada por nome ou id de categorias
 - Busca por id de transações
 - Remoção de usuários
-- Expection se o usuário já possuir o email cadastrado no banco
+- Retorno de erro ao tentar cadastrar um usuário com e-mail já existente
 
 ---
 
@@ -32,3 +32,12 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 - **Transação**: id, descrição, valor, data, categoria_id, usuario_id, tipo (receita/despesa)  
 
 ---
+
+## 📌 Próximos Passos
+
+- Autenticação e login (JWT)
+- Filtros por data nas transações
+- Remoção de transações e categorias
+
+---
+  
