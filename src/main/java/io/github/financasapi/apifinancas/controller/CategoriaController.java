@@ -3,6 +3,7 @@ package io.github.financasapi.apifinancas.controller;
 import io.github.financasapi.apifinancas.dto.CategoriaDTO;
 import io.github.financasapi.apifinancas.model.Categoria;
 import io.github.financasapi.apifinancas.service.CategoriaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,7 +25,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody CategoriaDTO categoria) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid CategoriaDTO categoria) {
         var entidade = categoria.mapearCategoria();
         categoriaService.salvar(entidade);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();

@@ -6,6 +6,7 @@ import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
 import io.github.financasapi.apifinancas.expections.RegistroDuplicadoExpection;
 import io.github.financasapi.apifinancas.model.Usuario;
 import io.github.financasapi.apifinancas.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class UsuarioController {
 
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody UsuarioDTO usuario) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid UsuarioDTO usuario) {
         try {
             var entidade = usuario.mapearUsuario();
             usuarioService.salvar(entidade);
@@ -61,7 +62,8 @@ public class UsuarioController {
             mensagem.put("message", "Nenhum usuário encontrado com o nome informado.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensagem);
         }
-        List<UsuarioResponseDTO> listaDTO = lista.stream().map(usuario -> new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail())).collect(Collectors.toList());
+        List<UsuarioResponseDTO> listaDTO = lista.stream().map(usuario -> new UsuarioResponseDTO(usuario.getId(), usuario.getNome(),
+                usuario.getEmail())).collect(Collectors.toList());
         return ResponseEntity.ok(listaDTO);
     }
 

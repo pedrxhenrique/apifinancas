@@ -3,6 +3,7 @@ package io.github.financasapi.apifinancas.controller;
 import io.github.financasapi.apifinancas.dto.TransacaoDTO;
 import io.github.financasapi.apifinancas.model.Transacao;
 import io.github.financasapi.apifinancas.service.TransacaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,7 +23,7 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody TransacaoDTO transacao) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid TransacaoDTO transacao) {
         var entidade = transacao.mapearTransacao();
         transacaoService.salvar(entidade);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
