@@ -4,7 +4,7 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 
 ---
 
-## Tecnologias
+## 🚀 Tecnologias
 
 - Java 21 (OpenJDK)
 - Spring Boot
@@ -14,19 +14,30 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 
 ---
 
-## Funcionalidades Atuais
+## ✅ Funcionalidades Atuais
 
 - Salvar usuários, categorias e transações
-- Buscar detalhes de usuários e categorias
-- Pesquisa por nome de usuário
-- Expection se o usuário já possuir o email cadastrado no banco
+- Buscar detalhada por nome ou id de usuários (sem mostrar a senha)
+- Busca detalhada por nome ou id de categorias
+- Busca por id de transações
+- Remoção de usuários
+- Retorno de erro ao tentar cadastrar um usuário com e-mail já existente
 
 ---
 
-## Estrutura Básica das Tabelas
+## 🗃️ Estrutura Básica das Tabelas
 
 - **Usuário**: id, nome, email, senha  
 - **Categoria**: id, nome, descrição, usuario_id
 - **Transação**: id, descrição, valor, data, categoria_id, usuario_id, tipo (receita/despesa)  
 
 ---
+
+## 📌 Próximos Passos
+
+- Autenticação e login (JWT)
+- Filtros por data nas transações
+- Remoção de transações e categorias
+
+---
+  
