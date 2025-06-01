@@ -1,9 +1,14 @@
 package io.github.financasapi.apifinancas.controller;
 
 import io.github.financasapi.apifinancas.dto.CategoriaDTO;
+import io.github.financasapi.apifinancas.dto.CategoriaResponseDTO;
+import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
+import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.model.Categoria;
 import io.github.financasapi.apifinancas.service.CategoriaService;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,7 +30,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody @Valid CategoriaDTO categoria) {
+    public ResponseEntity<Object> salvarCategoria(@RequestBody @Valid CategoriaDTO categoria) {
         var entidade = categoria.mapearCategoria();
         categoriaService.salvar(entidade);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
@@ -33,21 +38,57 @@ public class CategoriaController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Object> buscar(@PathVariable("id") String id) {
+    public ResponseEntity<Object> pesquisarCategoria(@PathVariable("id") String id) {
         var idCategoria = UUID.fromString(id);
         Optional<Categoria> user = categoriaService.buscarPorId(idCategoria);
         if (user.isPresent()) {
             Categoria entity = user.get();
-            CategoriaDTO categoriaDTO = new CategoriaDTO(entity.getId(), entity.getNome(), entity.getDescricao(), entity.getId());
+            CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(entity.getId(), entity.getNome(), entity.getDescricao(), entity.getUsuario().getId());
             return ResponseEntity.ok(categoriaDTO);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A categoria informada não foi encontrada."));
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> pesquisarDetalhada(@RequestParam(value = "nome", required = false) String nome) {
+    public ResponseEntity<?> pesquisaDetalhadaCategoria(@RequestParam(value = "nome", required = false) String nome) {
         List<Categoria> lista = categoriaService.pesquisa(nome);
-        List<CategoriaDTO> listaDTO = lista.stream().map(categoria -> new CategoriaDTO(categoria.getId(), categoria.getNome(), categoria.getDescricao(), categoria.getId())).collect(Collectors.toList());
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A transação não foi encontrada em nossa base."));
+        }
+        List<CategoriaResponseDTO> listaDTO = lista.stream().map(categoria -> new CategoriaResponseDTO(categoria.getId(), categoria.getNome(), categoria.getDescricao(), categoria.getUsuario().getId())).collect(Collectors.toList());
         return ResponseEntity.ok(listaDTO);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> atualizarCategoria(@PathVariable("id") String id, @RequestBody @Valid CategoriaDTO categoria) {
+        var idCategoria = UUID.fromString(id);
+        Optional<Categoria> categoriaOptional = categoriaService.buscarPorId(idCategoria);
+        if (categoriaOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A categoria informada não existe."));
+        }
+        var entityCategoria = categoriaOptional.get();
+        entityCategoria.setDescricao(categoria.descricao());
+        entityCategoria.setNome(categoria.nome());
+
+        categoriaService.atualizar(idCategoria, entityCategoria);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> removerCategoria(@PathVariable("id") String id) {
+        try {
+            var idCategoria = UUID.fromString(id);
+            Optional<Categoria> categoriaOptional = categoriaService.buscarPorId(idCategoria);
+            if (categoriaOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("O id da categoria não existe"));
+            }
+            categoriaService.deletar(idCategoria);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResposta.conflito("Não é possível deletar a categoria porque ela está em uso por uma ou mais transações."));
+        } catch (OperacaoNaoPermitidaException ex) {
+            var errorResposta = ErrorResposta.respostaPadrao(ex.getMessage());
+            return ResponseEntity.status(errorResposta.status()).body(errorResposta);
+        }
     }
 }

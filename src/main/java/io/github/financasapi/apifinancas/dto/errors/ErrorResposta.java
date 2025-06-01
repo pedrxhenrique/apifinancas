@@ -11,11 +11,11 @@ public record ErrorResposta(int status, String mensagem, List<ErrorCampo> erros)
     }
 
     public static ErrorResposta conflito(String mensagem) {
-        return new ErrorResposta(HttpStatus.CONFLICT.value(), mensagem, List.of());
+        return new ErrorResposta(403 , mensagem, List.of());
     }
 
-    public static ErrorResposta usuarioInexistente(String mensagem) {
-        return new ErrorResposta(HttpStatus.NOT_FOUND.value(), mensagem, List.of());
+    public static ErrorResposta naoEncontrado(String mensagem) {
+        return new ErrorResposta(404, mensagem, List.of());
     }
 
 }

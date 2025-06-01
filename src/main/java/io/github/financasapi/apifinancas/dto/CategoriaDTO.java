@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record CategoriaDTO(UUID id, @NotBlank(message = "O campo é obrigatório") String nome, @NotBlank(message = "O campo é obrigatório") String descricao, UUID idUsuario) {
+public record CategoriaDTO(UUID id, @NotBlank(message = "O nome é obrigatório") String nome, @NotBlank(message = "A descrição é obrigatória") String descricao, @NotNull(message = "O id do usuário é obrigatório") UUID idUsuario) {
 
     public Categoria mapearCategoria() {
         Categoria categoria = new Categoria();

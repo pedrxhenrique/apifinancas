@@ -16,9 +16,9 @@ public class UsuarioValidator {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void validar(Usuario usuario) {
+    public void validarUser(Usuario usuario) {
         if (existeUsuarioCadastrado(usuario)) {
-            throw new RegistroDuplicadoExpection("O usuário já está cadastrado em nossa base, tente outro email " + usuario.getEmail());
+            throw new RegistroDuplicadoExpection("O usuário já está cadastrado em nossa base, tente outro email");
         }
     }
 

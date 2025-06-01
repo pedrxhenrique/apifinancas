@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record TransacaoDTO(UUID id, @NotBlank String descricao, @NotBlank String tipo, @NotNull BigDecimal valor, @NotNull LocalDate data, UUID idCategoria,
+public record TransacaoDTO(UUID id, @NotBlank(message = "A descrição é obrigatória") String descricao, @NotBlank(message = "O tipo é obrigatório") String tipo, @NotNull(message = "O valor é obrigatório") BigDecimal valor, @NotNull(message = "A data é obrigatória") LocalDate data, UUID idCategoria,
                            UUID idUsuario) {
 
     public Transacao mapearTransacao() {

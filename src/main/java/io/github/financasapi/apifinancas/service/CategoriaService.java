@@ -1,5 +1,7 @@
 package io.github.financasapi.apifinancas.service;
 
+import io.github.financasapi.apifinancas.expections.CategoriaNaoEncontradaException;
+import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.model.Categoria;
 import io.github.financasapi.apifinancas.model.Usuario;
 import io.github.financasapi.apifinancas.repository.CategoriaRepository;
@@ -36,4 +38,17 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
+    public Categoria atualizar(UUID id, Categoria categoria) {
+        Categoria categoriaExiste = categoriaRepository.findById(id).orElseThrow(() -> new OperacaoNaoPermitidaException("Categoria não encontrada."));
+        categoriaExiste.setNome(categoria.getNome());
+        categoriaExiste.setDescricao(categoria.getDescricao());
+        return categoriaRepository.save(categoriaExiste);
+    }
+
+    public void deletar(UUID id) {
+        if(!categoriaRepository.existsById(id)) {
+            throw new CategoriaNaoEncontradaException("Categoria com o ID informado não existe");
+        }
+        categoriaRepository.deleteById(id);
+    }
 }

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record UsuarioDTO(UUID id, @NotBlank(message = "O campo é obrigatório") String nome, @NotBlank(message ="O campo é obrigatório") String email,@NotBlank(message = "O campo é obrigatório") String senha) {
+public record UsuarioDTO(UUID id, @NotBlank(message = "O nome é obrigatório") String nome, @NotBlank(message ="O email é obrigatório") String email,@NotBlank(message = "A senha é obrigatória") String senha) {
 
     public Usuario mapearUsuario() {
         Usuario usuario = new Usuario();
