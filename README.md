@@ -31,7 +31,7 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 
 - **Usuário**: id, nome, email, senha  
 - **Categoria**: id, nome, descrição, usuario_id
-- **Transação**: id, descrição, valor, data, categoria_id, usuario_id, tipo (receita/despesa)  
+- **Transação**: id, descrição, valor, data, categoria_id, usuario_id, tipo
 
 ---
 
