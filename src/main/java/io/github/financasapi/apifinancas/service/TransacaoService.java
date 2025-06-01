@@ -1,7 +1,7 @@
 package io.github.financasapi.apifinancas.service;
 
-import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
-import io.github.financasapi.apifinancas.expections.TransacaoNaoEncontradaException;
+import io.github.financasapi.apifinancas.exceptions.OperacaoNaoPermitidaException;
+import io.github.financasapi.apifinancas.exceptions.TransacaoNaoEncontradaException;
 import io.github.financasapi.apifinancas.model.Categoria;
 import io.github.financasapi.apifinancas.model.Transacao;
 import io.github.financasapi.apifinancas.model.Usuario;
@@ -40,6 +40,10 @@ public class TransacaoService {
         return transacaoRepository.findById(id);
     }
 
+    public List<Transacao> buscarPorIDPDF(UUID usuarioId) {
+        return transacaoRepository.findByIdUsuarioId(usuarioId);
+    }
+
     public Transacao atualizar(UUID id, Transacao transacao) {
         Transacao transacaoExiste = transacaoRepository.findById(id).orElseThrow(() -> new OperacaoNaoPermitidaException("Transação não encontrada."));
         if (transacao.getDescricao() == null || transacao.getDescricao().isBlank()) {
@@ -65,5 +69,6 @@ public class TransacaoService {
         }
         return transacaoRepository.findAll();
     }
+
 }
 

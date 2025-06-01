@@ -11,4 +11,7 @@ public interface TransacaoRepository extends JpaRepository<Transacao, UUID> {
     List<Transacao> findByTipo(String tipo);
 
     List<Transacao> findByTipoContainingIgnoreCase(String tipo);
+
+    List<Transacao> findByIdUsuarioId(UUID usuarioId);
+
 }

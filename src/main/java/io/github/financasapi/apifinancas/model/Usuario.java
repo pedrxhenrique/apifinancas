@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,6 +28,9 @@ public class Usuario {
 
     @Column(name = "senha", nullable = false, length = 255)
     private String senha;
+
+    @Column(name = "limite_mensal", nullable = false)
+    private BigDecimal limiteMensal;
 
     @CreatedDate
     @Column(name = "data_cadastro")

@@ -4,14 +4,16 @@ import io.github.financasapi.apifinancas.model.Categoria;
 
 import java.util.UUID;
 
-public record CategoriaResponseDTO(UUID id, String nome, String descricao, UUID idUsuario) {
+public record CategoriaResponseDTO(UUID id, String nome, String descricao, UUID idUsuario, String nomeUser, String email) {
 
-    public CategoriaResponseDTO mapearResponseCategoria(Categoria categoria) {
+    public static CategoriaResponseDTO mapearResponseCategoria(Categoria categoria) {
         return new CategoriaResponseDTO(
                 categoria.getId(),
                 categoria.getNome(),
                 categoria.getDescricao(),
-                categoria.getUsuario().getId()
+                categoria.getUsuario().getId(),
+                categoria.getUsuario().getNome(),
+                categoria.getUsuario().getEmail()
                 );
     }
 

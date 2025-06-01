@@ -1,6 +1,6 @@
 package io.github.financasapi.apifinancas.validador;
 
-import io.github.financasapi.apifinancas.expections.RegistroDuplicadoExpection;
+import io.github.financasapi.apifinancas.exceptions.RegistroDuplicadoExpection;
 import io.github.financasapi.apifinancas.model.Usuario;
 import io.github.financasapi.apifinancas.repository.UsuarioRepository;
 import org.springframework.stereotype.Component;

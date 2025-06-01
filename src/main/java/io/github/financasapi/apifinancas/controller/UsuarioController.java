@@ -3,11 +3,14 @@ package io.github.financasapi.apifinancas.controller;
 import io.github.financasapi.apifinancas.dto.UsuarioDTO;
 import io.github.financasapi.apifinancas.dto.UsuarioResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
-import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
-import io.github.financasapi.apifinancas.expections.RegistroDuplicadoExpection;
+import io.github.financasapi.apifinancas.exceptions.OperacaoNaoPermitidaException;
+import io.github.financasapi.apifinancas.exceptions.RegistroDuplicadoExpection;
 import io.github.financasapi.apifinancas.model.Usuario;
+import io.github.financasapi.apifinancas.service.RelatorioService;
+import io.github.financasapi.apifinancas.service.TransacaoService;
 import io.github.financasapi.apifinancas.service.UsuarioService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +24,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
+@RequiredArgsConstructor
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-
-    public UsuarioController(UsuarioService service) {
-        this.usuarioService = service;
-    }
-
+    private final TransacaoService transacaoService;
+    private final RelatorioService relatorioService;
 
     @PostMapping
     public ResponseEntity<Object> salvarUsuario(@RequestBody @Valid UsuarioDTO usuario) {
@@ -49,7 +50,7 @@ public class UsuarioController {
         Optional<Usuario> user = usuarioService.buscarPorId(idAutor);
         if (user.isPresent()) {
             Usuario entity = user.get();
-            UsuarioResponseDTO userDTO = new UsuarioResponseDTO(entity.getId(), entity.getNome(), entity.getEmail());
+            UsuarioResponseDTO userDTO = new UsuarioResponseDTO(entity.getId(), entity.getNome(), entity.getEmail(), entity.getLimiteMensal());
             return ResponseEntity.ok(userDTO);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("Usuário não encontrado pelo ID"));
@@ -62,7 +63,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("O usuário não foi encontrado em nossa base."));
         }
         List<UsuarioResponseDTO> listaDTO = lista.stream().map(usuario -> new UsuarioResponseDTO(usuario.getId(), usuario.getNome(),
-                usuario.getEmail())).collect(Collectors.toList());
+                usuario.getEmail(), usuario.getLimiteMensal())).collect(Collectors.toList());
         return ResponseEntity.ok(listaDTO);
     }
 

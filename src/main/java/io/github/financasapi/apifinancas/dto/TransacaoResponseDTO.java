@@ -6,16 +6,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record TransacaoResponseDTO(UUID ID, String descricao, String tipo, BigDecimal valor, LocalDate data, UUID idCategoria, UUID idUsuario) {
+public record TransacaoResponseDTO(UUID ID, String descricao, String tipo, BigDecimal valor, LocalDate data, UUID idCategoria, String nomeCategoria, UUID idUsuario, String email) {
 
-    public TransacaoResponseDTO mapearResponseTransacao(Transacao transacao) {
+    public static TransacaoResponseDTO mapearResponseTransacao(Transacao transacao) {
         return new TransacaoResponseDTO(transacao.getId(),
                 transacao.getDescricao(),
                 transacao.getTipo(),
                 transacao.getValor(),
                 transacao.getData(),
                 transacao.getIdCategoria().getId(),
-                transacao.getIdUsuario().getId()
-                );
+                transacao.getIdCategoria().getNome(),
+                transacao.getIdUsuario().getId(),
+                transacao.getIdUsuario().getEmail()
+        );
     }
-    }
+}

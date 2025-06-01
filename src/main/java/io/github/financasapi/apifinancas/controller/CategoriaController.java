@@ -3,10 +3,11 @@ package io.github.financasapi.apifinancas.controller;
 import io.github.financasapi.apifinancas.dto.CategoriaDTO;
 import io.github.financasapi.apifinancas.dto.CategoriaResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
-import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
+import io.github.financasapi.apifinancas.exceptions.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.model.Categoria;
 import io.github.financasapi.apifinancas.service.CategoriaService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +22,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categorias")
+@RequiredArgsConstructor
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
 
-    public CategoriaController(CategoriaService categoriaService) {
-        this.categoriaService = categoriaService;
-    }
-
     @PostMapping
-    public ResponseEntity<Object> salvarCategoria(@RequestBody @Valid CategoriaDTO categoria) {
-        var entidade = categoria.mapearCategoria();
-        categoriaService.salvar(entidade);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
-        return ResponseEntity.created(location).body(entidade);
+    public ResponseEntity<CategoriaResponseDTO> salvarCategoria(@RequestBody @Valid CategoriaDTO categoria) {
+        Categoria entidade = categoriaService.salvar(categoria.mapearCategoria());
+        return ResponseEntity.ok(CategoriaResponseDTO.mapearResponseCategoria(entidade));
     }
 
     @GetMapping("{id}")
@@ -43,7 +39,7 @@ public class CategoriaController {
         Optional<Categoria> user = categoriaService.buscarPorId(idCategoria);
         if (user.isPresent()) {
             Categoria entity = user.get();
-            CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(entity.getId(), entity.getNome(), entity.getDescricao(), entity.getUsuario().getId());
+            CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(entity.getId(), entity.getNome(), entity.getDescricao(), entity.getUsuario().getId(), entity.getUsuario().getNome(), entity.getUsuario().getEmail());
             return ResponseEntity.ok(categoriaDTO);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A categoria informada não foi encontrada."));
@@ -55,7 +51,7 @@ public class CategoriaController {
         if (lista.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A transação não foi encontrada em nossa base."));
         }
-        List<CategoriaResponseDTO> listaDTO = lista.stream().map(categoria -> new CategoriaResponseDTO(categoria.getId(), categoria.getNome(), categoria.getDescricao(), categoria.getUsuario().getId())).collect(Collectors.toList());
+        List<CategoriaResponseDTO> listaDTO = lista.stream().map(categoria -> new CategoriaResponseDTO(categoria.getId(), categoria.getNome(), categoria.getDescricao(), categoria.getUsuario().getId(), categoria.getUsuario().getNome(), categoria.getUsuario().getEmail())).collect(Collectors.toList());
         return ResponseEntity.ok(listaDTO);
     }
 

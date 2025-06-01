@@ -1,4 +1,4 @@
-package io.github.financasapi.apifinancas.expections;
+package io.github.financasapi.apifinancas.exceptions;
 
 public class UsuarioNaoEncontradoException extends RuntimeException {
     public UsuarioNaoEncontradoException(String message) {

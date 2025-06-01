@@ -1,15 +1,13 @@
 package io.github.financasapi.apifinancas.controller;
 
-import io.github.financasapi.apifinancas.dto.CategoriaResponseDTO;
 import io.github.financasapi.apifinancas.dto.TransacaoDTO;
 import io.github.financasapi.apifinancas.dto.TransacaoResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
-import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
-import io.github.financasapi.apifinancas.model.Categoria;
+import io.github.financasapi.apifinancas.exceptions.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.model.Transacao;
 import io.github.financasapi.apifinancas.service.TransacaoService;
 import jakarta.validation.Valid;
-import org.springframework.dao.DataIntegrityViolationException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,20 +21,16 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/transacoes")
+@RequiredArgsConstructor
 public class TransacaoController {
 
     private final TransacaoService transacaoService;
 
-    public TransacaoController(TransacaoService transacaoService) {
-        this.transacaoService = transacaoService;
-    }
-
     @PostMapping
     public ResponseEntity<Object> salvarTransacao(@RequestBody @Valid TransacaoDTO transacao) {
-        var entidade = transacao.mapearTransacao();
-        transacaoService.salvar(entidade);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
-        return ResponseEntity.created(location).body(entidade);
+        Transacao t1 = transacaoService.salvar(transacao.mapearTransacao());
+        return ResponseEntity.ok(TransacaoResponseDTO.mapearResponseTransacao(t1));
+
     }
 
     @GetMapping("{id}")
@@ -46,7 +40,7 @@ public class TransacaoController {
         if (transacaoOptional.isPresent()) {
             Transacao transacao = transacaoOptional.get();
             TransacaoResponseDTO transacaoDTO = new TransacaoResponseDTO(transacao.getId(), transacao.getDescricao(), transacao.getTipo(),
-                    transacao.getValor(), transacao.getData(), transacao.getIdCategoria().getId(), transacao.getIdUsuario().getId());
+                    transacao.getValor(), transacao.getData(), transacao.getIdCategoria().getId(), transacao.getIdCategoria().getNome(), transacao.getIdUsuario().getId(), transacao.getIdUsuario().getEmail());
             return ResponseEntity.ok(transacaoDTO);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A transação informada não foi encontrada."));
@@ -92,9 +86,10 @@ public class TransacaoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResposta.naoEncontrado("A transação não foi encontrada em nossa base."));
         }
         List<TransacaoResponseDTO> listaDTO = lista.stream().map(transacao -> new TransacaoResponseDTO(transacao.getId(),transacao.getDescricao(), transacao.getTipo(),
-                transacao.getValor(), transacao.getData(), transacao.getIdCategoria().getId(), transacao.getIdUsuario().getId())).collect(Collectors.toList());
+                transacao.getValor(), transacao.getData(), transacao.getIdCategoria().getId(), transacao.getIdCategoria().getNome(), transacao.getIdUsuario().getId(), transacao.getIdUsuario().getEmail())).collect(Collectors.toList());
             return ResponseEntity.ok(listaDTO);
     }
+
 }
 
 

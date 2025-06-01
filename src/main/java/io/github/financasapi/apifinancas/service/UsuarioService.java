@@ -1,8 +1,7 @@
 package io.github.financasapi.apifinancas.service;
 
-import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
-import io.github.financasapi.apifinancas.expections.UsuarioNaoEncontradoException;
-import io.github.financasapi.apifinancas.model.Categoria;
+import io.github.financasapi.apifinancas.exceptions.OperacaoNaoPermitidaException;
+import io.github.financasapi.apifinancas.exceptions.UsuarioNaoEncontradoException;
 import io.github.financasapi.apifinancas.model.Usuario;
 import io.github.financasapi.apifinancas.repository.UsuarioRepository;
 import io.github.financasapi.apifinancas.validador.UsuarioValidator;
@@ -51,4 +50,5 @@ public class UsuarioService {
         usuarioExiste.setSenha(usuario.getSenha());
         return usuarioRepository.save(usuarioExiste);
     }
+
 }
