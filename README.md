@@ -22,7 +22,8 @@ Backend para controle financeiro simples, com cadastro e consulta de usuários, 
 - Busca por id de transações
 - Remoção de usuários
 - Retorno de erro ao tentar cadastrar um usuário com e-mail já existente
-- Valid para campos não irem nulls 
+- Valid para campos não irem nulls
+- Geração de PDF com transações de usuário e valores gastos.
 
 ---
 
