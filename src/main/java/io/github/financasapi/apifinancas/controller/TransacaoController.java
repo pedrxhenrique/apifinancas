@@ -7,10 +7,15 @@ import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
 import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.model.Categoria;
 import io.github.financasapi.apifinancas.model.Transacao;
+import io.github.financasapi.apifinancas.model.Usuario;
+import io.github.financasapi.apifinancas.service.RelatorioService;
 import io.github.financasapi.apifinancas.service.TransacaoService;
+import io.github.financasapi.apifinancas.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,6 +34,7 @@ public class TransacaoController {
 
     public TransacaoController(TransacaoService transacaoService) {
         this.transacaoService = transacaoService;
+
     }
 
     @PostMapping
@@ -95,6 +101,7 @@ public class TransacaoController {
                 transacao.getValor(), transacao.getData(), transacao.getIdCategoria().getId(), transacao.getIdUsuario().getId())).collect(Collectors.toList());
             return ResponseEntity.ok(listaDTO);
     }
+
 }
 
 

@@ -5,10 +5,15 @@ import io.github.financasapi.apifinancas.dto.UsuarioResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
 import io.github.financasapi.apifinancas.expections.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.expections.RegistroDuplicadoExpection;
+import io.github.financasapi.apifinancas.model.Transacao;
 import io.github.financasapi.apifinancas.model.Usuario;
+import io.github.financasapi.apifinancas.service.RelatorioService;
+import io.github.financasapi.apifinancas.service.TransacaoService;
 import io.github.financasapi.apifinancas.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,9 +29,13 @@ import java.util.stream.Collectors;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final TransacaoService transacaoService;
+    private final RelatorioService relatorioService;
 
-    public UsuarioController(UsuarioService service) {
+    public UsuarioController(UsuarioService service, TransacaoService transacaoService, RelatorioService relatorioService) {
         this.usuarioService = service;
+        this.transacaoService = transacaoService;
+        this.relatorioService = relatorioService;
     }
 
 

@@ -51,4 +51,5 @@ public class UsuarioService {
         usuarioExiste.setSenha(usuario.getSenha());
         return usuarioRepository.save(usuarioExiste);
     }
+
 }

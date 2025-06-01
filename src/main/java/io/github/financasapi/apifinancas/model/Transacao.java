@@ -27,7 +27,7 @@ public class Transacao {
     @Column(name = "valor")
     private BigDecimal valor;
 
-    @Column(name = "tipo", length = 50)
+    @Column(name = "tipo", length = 255)
     private String tipo;
 
     @Column(name = "data")

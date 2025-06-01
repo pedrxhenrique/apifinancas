@@ -40,6 +40,10 @@ public class TransacaoService {
         return transacaoRepository.findById(id);
     }
 
+    public List<Transacao> buscarPorIDPDF(UUID usuarioId) {
+        return transacaoRepository.findByIdUsuarioId(usuarioId);
+    }
+
     public Transacao atualizar(UUID id, Transacao transacao) {
         Transacao transacaoExiste = transacaoRepository.findById(id).orElseThrow(() -> new OperacaoNaoPermitidaException("Transação não encontrada."));
         if (transacao.getDescricao() == null || transacao.getDescricao().isBlank()) {
@@ -65,5 +69,6 @@ public class TransacaoService {
         }
         return transacaoRepository.findAll();
     }
+
 }
 
