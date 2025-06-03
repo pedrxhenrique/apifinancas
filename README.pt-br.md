@@ -48,4 +48,9 @@ Backend para um sistema simples de **controle financeiro pessoal**, com funciona
 - `data`
 - `categoria_id`
 - `usuario_id`
-- `tipo` 
+- `tipo`
+---
+
+## ✉️ Contato
+
+Fique à vontade para entrar em contato comigo pelo [LinkedIn](https://www.linkedin.com/in/pedrohjacinto) caso tenha dúvidas, sugestões ou queira trocar uma ideia sobre o projeto!
