@@ -50,4 +50,10 @@ A simple backend system for **personal financial management**, with user, catego
 - `date`
 - `category_id`
 - `user_id`
-- `type` 
+- `type`
+
+---
+
+## ✉️ Contact
+
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/pedrohjacinto) if you have any questions, suggestions, or just want to talk about the project!
