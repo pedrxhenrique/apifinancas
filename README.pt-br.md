@@ -48,4 +48,4 @@ Backend para um sistema simples de **controle financeiro pessoal**, com funciona
 - `data`
 - `categoria_id`
 - `usuario_id`
-- `tipo` (ex: entrada, saída)
+- `tipo` 
