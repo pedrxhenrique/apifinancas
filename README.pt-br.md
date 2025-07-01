@@ -23,7 +23,8 @@ Backend para um sistema simples de **controle financeiro pessoal**, com funciona
 - ✅ Remoção de usuários  
 - ✅ Validação de campos obrigatórios (`@Valid`)  
 - ✅ Prevenção de duplicidade de e-mails (erro ao cadastrar com e-mail já existente)  
-- ✅ Geração de **PDF com as transações e valores gastos** de um usuário  
+- ✅ Geração de **PDF com as transações e valores gastos** de um usuário
+- ✅ Criadas variáveis locais para segurança: senha e usuário (para banco de dados e email).
 
 ---
 
