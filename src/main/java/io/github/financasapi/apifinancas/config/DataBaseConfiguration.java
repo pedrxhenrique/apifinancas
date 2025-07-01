@@ -11,13 +11,13 @@ import javax.sql.DataSource;
 @Configuration
 public class DataBaseConfiguration {
 
-    @Value("jdbc:postgresql://localhost:5433/financas_db")
+    @Value("${spring.datasource.url}")
     String url;
-    @Value("postgres")
+    @Value("${spring.datasource.username}")
     String user;
-    @Value("123456")
+    @Value("${spring.datasource.password}")
     String password;
-    @Value("org.postgresql.Driver")
+    @Value("${spring.datasource.driver-class-name}")
     String driver;
 
     @Bean
