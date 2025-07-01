@@ -1,44 +1,59 @@
-# 💸 Projeto de Finanças Pessoais
+# 💸 Personal Finance Project
 
-Backend para controle financeiro simples, com cadastro e consulta de usuários, categorias e transações. Feito com **Spring Boot**, **PostgreSQL**, **Docker** e testes via **Postman**.
+A simple backend system for **personal financial management**, with user, category, and transaction registration and querying.
 
----
-
-## 🚀 Tecnologias
-
-- Java 21 (OpenJDK)
-- Spring Boot
-- PostgreSQL
-- Docker
-- Postman
+> 🇧🇷 [Read this documentation in Portuguese](README.pt-br.md)
 
 ---
 
-## ✅ Funcionalidades Atuais
+## 🚀 Technologies Used
 
-- Salvar usuários, categorias e transações
-- Buscar detalhada por nome ou id de usuários (sem mostrar a senha)
-- Busca detalhada por nome ou id de categorias
-- Busca por id de transações
-- Remoção de usuários
-- Retorno de erro ao tentar cadastrar um usuário com e-mail já existente
-- Valid para campos não irem nulls 
+- **Java 21 (OpenJDK)**
+- **Spring Boot**
+- **PostgreSQL**
+- **Docker**
+- **Postman** (for API testing)
 
 ---
 
-## 🗃️ Estrutura Básica das Tabelas
+## ✅ Current Features
 
-- **Usuário**: id, nome, email, senha  
-- **Categoria**: id, nome, descrição, usuario_id
-- **Transação**: id, descrição, valor, data, categoria_id, usuario_id, tipo (receita/despesa)  
+- ✅ Register users, categories, and transactions  
+- ✅ Query users by name or ID (password is hidden)  
+- ✅ Query categories by name or ID  
+- ✅ Query transactions by ID  
+- ✅ Delete users  
+- ✅ Field validation with `@Valid` (no null values allowed)  
+- ✅ Error returned if trying to register a user with an existing email  
+- ✅ Generate **PDF report** of user transactions and total spent  
+
+---
+
+## 🗃️ Database Schema Overview
+
+### User
+- `id`
+- `name`
+- `email`
+- `password`
+
+### Category
+- `id`
+- `name`
+- `description`
+- `user_id`
+
+### Transaction
+- `id`
+- `description`
+- `amount`
+- `date`
+- `category_id`
+- `user_id`
+- `type`
 
 ---
 
-## 📌 Próximos Passos
+## ✉️ Contact
 
-- Autenticação e login (JWT)
-- Filtros por data nas transações
-- Remoção de transações e categorias
-
----
-  
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/pedrohjacinto) if you have any questions, suggestions, or just want to talk about the project!
