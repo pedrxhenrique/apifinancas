@@ -1,5 +1,6 @@
 package io.github.financasapi.apifinancas.controller;
 
+import io.github.financasapi.apifinancas.dto.CategoriaResponseDTO;
 import io.github.financasapi.apifinancas.dto.UsuarioDTO;
 import io.github.financasapi.apifinancas.dto.UsuarioResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
@@ -34,10 +35,9 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Object> salvarUsuario(@RequestBody @Valid UsuarioDTO usuario) {
         try {
-            var entidade = usuario.mapearUsuario();
-            usuarioService.salvar(entidade);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
-            return ResponseEntity.created(location).build();
+            Usuario user = usuarioService.salvar(usuario.mapearUsuario());
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+            return ResponseEntity.created(location).body(UsuarioResponseDTO.fromUsuario(user));
         } catch (RegistroDuplicadoExpection e) {
             var errorDTO = ErrorResposta.conflito(e.getMessage());
             return ResponseEntity.status(errorDTO.status()).body(errorDTO);

@@ -1,5 +1,6 @@
 package io.github.financasapi.apifinancas.controller;
 
+import io.github.financasapi.apifinancas.dto.CategoriaResponseDTO;
 import io.github.financasapi.apifinancas.dto.TransacaoDTO;
 import io.github.financasapi.apifinancas.dto.TransacaoResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
@@ -29,7 +30,8 @@ public class TransacaoController {
     @PostMapping
     public ResponseEntity<Object> salvarTransacao(@RequestBody @Valid TransacaoDTO transacao) {
         Transacao t1 = transacaoService.salvar(transacao.mapearTransacao());
-        return ResponseEntity.ok(TransacaoResponseDTO.mapearResponseTransacao(t1));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(t1.getId()).toUri();
+        return ResponseEntity.created(location).body(TransacaoResponseDTO.mapearResponseTransacao(t1));
 
     }
 

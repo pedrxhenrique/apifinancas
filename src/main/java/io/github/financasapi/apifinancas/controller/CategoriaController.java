@@ -2,6 +2,7 @@ package io.github.financasapi.apifinancas.controller;
 
 import io.github.financasapi.apifinancas.dto.CategoriaDTO;
 import io.github.financasapi.apifinancas.dto.CategoriaResponseDTO;
+import io.github.financasapi.apifinancas.dto.UsuarioResponseDTO;
 import io.github.financasapi.apifinancas.dto.errors.ErrorResposta;
 import io.github.financasapi.apifinancas.exceptions.OperacaoNaoPermitidaException;
 import io.github.financasapi.apifinancas.model.Categoria;
@@ -30,7 +31,8 @@ public class CategoriaController {
     @PostMapping
     public ResponseEntity<CategoriaResponseDTO> salvarCategoria(@RequestBody @Valid CategoriaDTO categoria) {
         Categoria entidade = categoriaService.salvar(categoria.mapearCategoria());
-        return ResponseEntity.ok(CategoriaResponseDTO.mapearResponseCategoria(entidade));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entidade.getId()).toUri();
+        return ResponseEntity.created(location).body(CategoriaResponseDTO.mapearResponseCategoria(entidade));
     }
 
     @GetMapping("{id}")
