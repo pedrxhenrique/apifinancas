@@ -25,7 +25,8 @@ A simple backend system for **personal financial management**, with user, catego
 - ✅ Delete users  
 - ✅ Field validation with `@Valid` (no null values allowed)  
 - ✅ Error returned if trying to register a user with an existing email  
-- ✅ Generate **PDF report** of user transactions and total spent  
+- ✅ Generate **PDF report** of user transactions and total spent
+- ✅ Local variables were created for security purposes: password and user, used for database and email.
 
 ---
 
